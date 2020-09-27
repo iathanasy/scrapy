@@ -70,9 +70,9 @@ MONGO_DATABASE = 'items'
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     # Store scraped item in redis for post-processing. 分布式redispipeline
-   'scrapy_redis.pipelines.RedisPipeline': 300,
-   'cnblogSpider.pipelines.CnblogspiderPipeline': 300,
-   # 'cnblogSpider.pipelines.CnblogspiderMongoPipeline': 301,
+   'cnblogSpider.pipelines.CnblogspiderPipeline': 100,
+   # 'scrapy_redis.pipelines.RedisPipeline': 300,
+   'cnblogSpider.pipelines.CnblogspiderMongoPipeline': 301,
    'scrapy.pipelines.files.FilesPipeline': 1,
    'scrapy.pipelines.images.ImagesPipeline': 2
 }
@@ -132,3 +132,6 @@ REDIS_PORT = "6379"
 REDIS_PARAMS ={
     'password': 'redis',  # 服务器的redis对应密码
 }
+
+DOWNLOAD_DELAY = 3  # 延时
+CONCURRENT_REQUESTS = 3  # 并发数
