@@ -66,6 +66,27 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'novelScrapy.pipelines.NovelscrapyPipeline': 300,
+    # 'scrapy.pipelines.files.FilesPipeline': 1,
+    'scrapy.pipelines.images.ImagesPipeline': 2
+}
+
+#
+# # 文件
+# FILES_STORE = 'data'
+# FILES_URLS_FIELD = 'file_urls'
+# FILES_RESULT_FIELD = 'files'
+# # 30天过期
+# FILES_EXPIRES = 30
+
+# 图片
+IMAGES_STORE = 'data/image'
+IMAGES_URLS_FIELD = 'nimage_urls'
+IMAGES_RESULT_FIELD = 'nimages'
+IMAGES_EXPIRES = 30
+# 缩略图
+IMAGES_THUMBS = {
+    'small': (50, 50),
+    'big': (270, 270),
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -103,19 +124,19 @@ MONGO_DATABASE='novel_scrapy'
 REPLICASET = ''
 
 """ scrapy-redis配置 """
-# # Enables scheduling storing requests queue in redis.
-# SCHEDULER = "scrapy_redis.scheduler.Scheduler"
-# # Ensure all spiders share same duplicates filter through redis.
-# DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-# # 配置调度器是否要持久化, 也就是当爬虫结束了, 要不要清空Redis中请求队列和去重指纹的set。如果是True, 就表示要持久化存储, 就不清空数据, 否则清空数据
-# SCHEDULER_PERSIST = True
-#
-# # 指定redis数据库的连接参数
-# REDIS_HOST = "127.0.0.1"
-# REDIS_PORT = "6379"
-# REDIS_PARAMS ={
-#     'password': 'redis',  # 服务器的redis对应密码
-# }
+# Enables scheduling storing requests queue in redis.
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# Ensure all spiders share same duplicates filter through redis.
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# 配置调度器是否要持久化, 也就是当爬虫结束了, 要不要清空Redis中请求队列和去重指纹的set。如果是True, 就表示要持久化存储, 就不清空数据, 否则清空数据
+SCHEDULER_PERSIST = True
+
+# 指定redis数据库的连接参数
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = "6379"
+REDIS_PARAMS ={
+    'password': 'redis',  # 服务器的redis对应密码
+}
 
 # DOWNLOAD_DELAY = 3  # 延时
 # CONCURRENT_REQUESTS = 3  # 并发数

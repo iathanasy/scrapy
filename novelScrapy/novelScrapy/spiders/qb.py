@@ -9,7 +9,7 @@ from ..items import NovelscrapyItem, NovelscrapyDetailItem
 from ..utlis.extract import extract_pre_next_chapter, extract_chapters
 
 
-class QbSpider(CrawlSpider):
+class QbSpider(scrapy.Spider):
     name = 'qb'
     allowed_domains = ['www.qb5.tw']
     start_urls = ['http://www.qb5.tw/']
@@ -107,6 +107,8 @@ class QbSpider(CrawlSpider):
         a = re.compile(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}')
         chapterUpdatedAt = a.findall(chapterUpdatedAt)[0]
 
+        nimage_urls = response.xpath('//*[@id="picbox"]/div/img/@src').extract()
+
         novel = NovelscrapyItem(novId=novel_id,
                                 name=novel_name,
                                 desc=desc,
@@ -116,7 +118,8 @@ class QbSpider(CrawlSpider):
                                 author=author,
                                 chapterUpdatedAt=chapterUpdatedAt,
                                 chapterId=chapterId,
-                                chapterTitle=chapterTitle)
+                                chapterTitle=chapterTitle,
+                                nimage_urls=nimage_urls)
         yield novel
 
         # 章节排序

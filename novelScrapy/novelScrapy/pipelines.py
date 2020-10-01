@@ -21,11 +21,12 @@ class NovelscrapyPipeline:
         return cls(
             mongo_uri=crawler.settings.get('MONGO_URI'),
             mongo_db=crawler.settings.get('MONGO_DATABASE', 'novel_scrapy'),
-            replicaset = crawler.settings.get('REPLICASET')
+            replicaset =crawler.settings.get('REPLICASET')
         )
 
     def open_spider(self, spider):
-        self.client = pymongo.MongoClient(self.mongo_uri,replicaset=self.replicaset)
+        # self.client = pymongo.MongoClient(self.mongo_uri,replicaset=self.replicaset)
+        self.client = pymongo.MongoClient(self.mongo_uri)
         self.db = self.client[self.mongo_db]
 
     def close_spider(self, spider):

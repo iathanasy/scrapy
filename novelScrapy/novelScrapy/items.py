@@ -46,6 +46,10 @@ class NovelscrapyItem(scrapy.Item):
     #
     updatedAt = scrapy.Field()
 
+    # 图片
+    nimage_urls = scrapy.Field()
+    nimages = scrapy.Field()
+
 class NovelscrapyDetailItem(scrapy.Item):
     #
     chapterId = scrapy.Field()
