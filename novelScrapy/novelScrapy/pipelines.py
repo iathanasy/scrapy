@@ -48,10 +48,8 @@ class NovelscrapyPipeline:
         :param item:
         :return:
         '''
+        item['cover'] = item["nimages"][0]["path"]
         self.db.novel.insert(dict(item))
-
-
-
 
 
     def _process_novel_chapter_item(self,item):

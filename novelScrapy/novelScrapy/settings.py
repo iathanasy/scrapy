@@ -67,7 +67,7 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
    'novelScrapy.pipelines.NovelscrapyPipeline': 300,
     # 'scrapy.pipelines.files.FilesPipeline': 1,
-    'scrapy.pipelines.images.ImagesPipeline': 2
+    'scrapy.pipelines.images.ImagesPipeline': 2  # 先执行
 }
 
 #
@@ -84,10 +84,10 @@ IMAGES_URLS_FIELD = 'nimage_urls'
 IMAGES_RESULT_FIELD = 'nimages'
 IMAGES_EXPIRES = 30
 # 缩略图
-IMAGES_THUMBS = {
-    'small': (50, 50),
-    'big': (270, 270),
-}
+# IMAGES_THUMBS = {
+#     'small': (50, 50),
+#     'big': (270, 270),
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -120,7 +120,7 @@ DEFAULT_REQUEST_HEADERS = {
 
 """ mongo配置 """
 MONGO_URI = 'mongodb://127.0.0.1:27017'
-MONGO_DATABASE='novel_scrapy'
+MONGO_DATABASE='novel_scrapy_test'
 REPLICASET = ''
 
 """ scrapy-redis配置 """

@@ -14,30 +14,87 @@ class QbSpider(scrapy.Spider):
     allowed_domains = ['www.qb5.tw']
     start_urls = ['http://www.qb5.tw/']
 
+    '''
+    '1', '玄幻奇幻'
+    '2', '武侠仙侠'
+    '3', '都市言情'
+    '4', '历史军事'
+    '5', '侦探推理'
+    '6', '网游竞技'
+    '7', '科幻灵异'
+    '8', '恐怖灵异'
+    '9', '其他类型'
+    '''
+
     # 一级解析：获取主题
     def parse(self, response):
-        topic_list = response.xpath('//div[@class="nav_cont"]/ul/li[position()>1 and position()<9]')
-        for i in topic_list:
-            novel_topic = i.xpath('./a/@title').get()
-            link = i.xpath('./a/@href').get()
+        # topic_list = response.xpath('//div[@class="nav_cont"]/ul/li[position()>1 and position()<9]')
+        # for i in topic_list:
+        #     novel_topic = i.xpath('./a/@title').get()
+        #     link = i.xpath('./a/@href').get()
+        #
+        #     m = re.match(".*/fenlei/(\d+)_(\d+)/", link)
+        #     novel_topic_id = m.group(1)
+        #     yield scrapy.Request(
+        #         url=link,
+        #         meta={'novel_topic': novel_topic, 'novel_topic_id': novel_topic_id},
+        #         callback=self.parse_page
+        #     )
 
-            m = re.match(".*/fenlei/(\d+)_(\d+)/", link)
-            novel_topic_id = m.group(1)
-            yield scrapy.Request(
-                url=link,
-                meta={'novel_topic': novel_topic, 'novel_topic_id': novel_topic_id},
-                callback=self.parse_page
-            )
 
-        # novel_topic = "玄幻魔法"
-        # link = "https://www.qb5.tw/fenlei/2_1/"
-        # m = re.match(".*/fenlei/(\d+)_(\d+)/", link)
-        # novel_topic_id = m.group(1)
-        # yield scrapy.Request(
-        #     url=link,
-        #     meta={'novel_topic': novel_topic, 'novel_topic_id': novel_topic_id},
-        #     callback=self.parse_two
-        # )
+        # 仙侠修真
+        novel_topic = "仙侠修真"
+        # link = "https://www.qb5.tw/fenlei/2_3/" 待爬
+        # link = "https://www.qb5.tw/fenlei/2_11/"
+        link = "https://www.qb5.tw/fenlei/2_14/" # 14-89
+
+        m = re.match(".*/fenlei/(\d+)_(\d+)/", link)
+        novel_topic_id = m.group(1)
+
+        # 玄幻奇幻
+        # novel_topic = "玄幻奇幻"
+        # # link = "https://www.qb5.tw/fenlei/1_10/" # 11-369
+        # link = "https://www.qb5.tw/fenlei/1_370/"
+
+        # 都市言情
+        # novel_topic = "都市言情"
+        # # link = "https://www.qb5.tw/fenlei/3_10/" # 11-1299
+        # link = "https://www.qb5.tw/fenlei/3_1300/"
+
+        # 历史军事
+        # novel_topic = "历史军事"
+        # # link = "https://www.qb5.tw/fenlei/4_10/" # 11-209
+        # link = "https://www.qb5.tw/fenlei/4_210/"
+
+        # 网游竞技
+        # novel_topic = "网游竞技"
+        # # link = "https://www.qb5.tw/fenlei/5_10/" # 11-89
+        # link = "https://www.qb5.tw/fenlei/5_90/"
+        # novel_topic_id = 6
+
+        # 科幻灵异
+        # novel_topic = "科幻灵异"
+        # # link = "https://www.qb5.tw/fenlei/6_10/" # 11-199
+        # link = "https://www.qb5.tw/fenlei/6_200/"
+        # novel_topic_id = 7
+
+        # 恐怖灵异
+        # novel_topic = "恐怖灵异"
+        # # link = "https://www.qb5.tw/fenlei/7_10/" # 11-40
+        # link = "https://www.qb5.tw/fenlei/7_40/"
+        # novel_topic_id = 8
+
+        # 其他类型
+        # novel_topic = "其他类型"
+        # # link = "https://www.qb5.tw/fenlei/8_10/" # 11
+        # link = "https://www.qb5.tw/fenlei/8_540/"
+        # novel_topic_id = 9
+
+        yield scrapy.Request(
+            url=link,
+            meta={'novel_topic': novel_topic, 'novel_topic_id': novel_topic_id},
+            callback=self.parse_two
+        )
 
     # 二级解析：遍历页码数
     def parse_page(self, response):
@@ -101,6 +158,7 @@ class QbSpider(scrapy.Spider):
         chapterUpdatedAt = response.xpath('//*[@id="info"]/div[1]/text()[2]').extract_first()
         chapterId = response.xpath('//*[@id="info"]/div[1]/a/@href').extract_first()
         chapterTitle = response.xpath('//*[@id="info"]/div[1]/a/text()').extract_first()
+        status = response.xpath('//*[@id="info"]/p/span[2]/text()').extract_first()
 
         chapterId = chapterId.strip(".html")
         #（2020-09-30 14:31）
@@ -119,6 +177,7 @@ class QbSpider(scrapy.Spider):
                                 chapterUpdatedAt=chapterUpdatedAt,
                                 chapterId=chapterId,
                                 chapterTitle=chapterTitle,
+                                status=status,
                                 nimage_urls=nimage_urls)
         yield novel
 
@@ -168,8 +227,10 @@ class QbSpider(scrapy.Spider):
         content = response.xpath('//div[@id="content"]/text()').extract()
         txt = ''
         for i in range(len(content)):
-            txt = txt + content[i].strip() + '\n'  # strip()去掉首位空格字符，‘\n’换行
+            # txt = txt + content[i].strip() + '\n'  # strip()去掉首位空格字符，‘\n’换行
+            txt = txt + content[i]+ '<br><br>'  # strip()去掉首位空格字符，‘\n’换行
             txt = txt.replace('全本小说网 www.qb5.tw，最快更新', '')  # replace()可以替换不需要的字符串
+            txt = txt.replace('最新章节！', '')  # replace()可以替换不需要的字符串
 
         textNum = len(txt.split())
         # print(novel_name, novel_chapter, index, response.url)

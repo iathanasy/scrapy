@@ -5,4 +5,7 @@
 
 from scrapy import cmdline
 
-cmdline.execute('scrapy crawl qb'.split())
+# cmdline.execute('scrapy crawl qb'.split())
+# cmdline.execute('scrapy crawl qb5'.split())
+# cmdline.execute('scrapy crawl qb5rq'.split())
+cmdline.execute('scrapy crawl qb5one'.split())

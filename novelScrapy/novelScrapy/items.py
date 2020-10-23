@@ -30,18 +30,18 @@ class NovelscrapyItem(scrapy.Item):
     # 小说字数
     textNum = scrapy.Field()
     # 小说章节数
-    chapterNum = scrapy.Field()
+    # chapterNum = scrapy.Field()
     # 最新章节时间
     chapterUpdatedAt = scrapy.Field()
     # 最新章节id
     chapterId = scrapy.Field()
     # 最新章节标题
     chapterTitle = scrapy.Field()
-    #
-    collectNum = scrapy.Field()
-    #
-    recNum = scrapy.Field()
-    #
+    # 书籍状态
+    novStatus = scrapy.Field()
+    # 状态，0：入库，1：上架
+    status = scrapy.Field()
+
     createdAt = scrapy.Field()
     #
     updatedAt = scrapy.Field()
@@ -64,9 +64,7 @@ class NovelscrapyDetailItem(scrapy.Item):
     # 章节采集链接
     link = scrapy.Field()
     # 章节采集站点源
-    source = scrapy.Field()
-    # 浏览次数
-    views = scrapy.Field()
+    # source = scrapy.Field()
     # 章节字数
     textNum = scrapy.Field()
     # 章节采集状态0正常，1失败
